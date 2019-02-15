@@ -20,10 +20,7 @@ def get_hotp_token(secret, intervals_no):
 
 
 def get_totp_token(secret):
-    token = str(get_hotp_token(secret, intervals_no=int(time.time()) // 30))
-    if len(token) == 5:
-        return '0' + token
-    return token
+    return str(get_hotp_token(secret, intervals_no=int(time.time()) // 30)).zfill(6)
 
 
 def show_prompt():
@@ -31,6 +28,7 @@ def show_prompt():
     print('Select an option:\n')
     options = list(secrets.keys())
     options.append('Add new app')
+    options.append('Exit')
 
     for index, option in enumerate(options):
         print('{} {}'.format(index, option))
@@ -43,8 +41,11 @@ def show_prompt():
         print('Please select from options above Error -> {}'.format(e))
         show_prompt()
         return
-    if selected_option == len(options) - 1:
+    if selected_option == len(options) - 2:
         add_new_secrets()
+    elif selected_option == len(options) - 1:
+        print('\nOkay bye!')
+        return
     else:
         try:
             app_name = options[selected_option].strip()
