@@ -49,7 +49,13 @@ def show_prompt():
     else:
         try:
             app_name = options[selected_option].strip()
-            print('\nSecrets for {} --> {}'.format(app_name, get_totp_token(secrets[app_name])))
+            token = get_totp_token(secrets[app_name])
+            print('\nSecrets for {} --> {}'.format(app_name, token))
+            try:
+                os.system('echo {} | pbcopy'.format(token))
+                print('{} token copied to clipboard!'.format(app_name))
+            except:
+                pass
         except (IndexError, ValueError) as e:
             print('\nPlease select from options above Error -> {}'.format(e))
             show_prompt()
