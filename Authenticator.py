@@ -7,7 +7,6 @@ import time
 
 FILE_NAME = 'secrets.txt'
 ENCODING = 'utf-8'
-SECRET_KEY_LEN = 16
 
 
 def get_hotp_token(secret, intervals_no):
@@ -85,11 +84,7 @@ def is_secrets_exist(file_name):
 
 def add_new_secrets():
     app_name = input('Please enter App name for which you want to add secrets: ')
-    secret_key = input('Please enter your 16 digit secret key: ')
-    if len(secret_key) != SECRET_KEY_LEN:
-        print('Please enter valid key\n')
-        add_new_secrets()
-        return
+    secret_key = input('Please enter your secret key: ')
     try:
         get_totp_token(secret_key)
     except Exception as e:
